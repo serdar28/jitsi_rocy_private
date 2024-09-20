@@ -83,7 +83,6 @@ done
 # ------------------------------------------------------------------------------
 lxc-attach -n $MACH -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 echo $MACH > /etc/hostname
 sed -i 's/\(127.0.1.1\s*\).*$/\1$MACH/' /etc/hosts
 hostname $MACH
@@ -94,7 +93,6 @@ EOS
 # ------------------------------------------------------------------------------
 zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 export DEBIAN_FRONTEND=noninteractive
 dnf -y install kmod alsa-utils
 EOS
@@ -105,7 +103,6 @@ EOS
 # fake install
 lxc-attach -n $MACH -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 export DEBIAN_FRONTEND=noninteractive
 apt-get -dy reinstall hostname
 EOS
@@ -113,7 +110,6 @@ EOS
 # update
 lxc-attach -n $MACH -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y update
 apt-get -y dist-upgrade
@@ -122,8 +118,6 @@ EOS
 # packages
 lxc-attach -n $MACH -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
-echo "151.101.38.132 deb.debian.org" >> /etc/hosts
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y install gnupg unzip jq
 apt-get -y install libnss3-tools
@@ -145,7 +139,6 @@ EOS
 
 lxc-attach -n $MACH -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y --install-recommends install google-chrome-stable
 EOS
@@ -153,7 +146,6 @@ EOS
 # chromedriver
 lxc-attach -n $MACH -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 CHROME_VER=\$(dpkg -s google-chrome-stable | egrep "^Version" | \
     cut -d " " -f2 | cut -d. -f1-3)
 CHROMELAB_LINK="https://googlechromelabs.github.io/chrome-for-testing"
@@ -171,7 +163,6 @@ EOS
 cp etc/apt/sources.list.d/jitsi-stable.list $ROOTFS/etc/apt/sources.list.d/
 lxc-attach -n $MACH -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 wget -T 30 -qO /tmp/jitsi.gpg.key https://download.jitsi.org/jitsi-key.gpg.key
 cat /tmp/jitsi.gpg.key | gpg --dearmor >/usr/share/keyrings/jitsi.gpg
 apt-get update
@@ -179,7 +170,6 @@ EOS
 
 lxc-attach -n $MACH -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 export DEBIAN_FRONTEND=noninteractive
 apt-get -y install openjdk-11-jre-headless
 apt-get -y install \
@@ -197,7 +187,6 @@ EOS
 # hold
 lxc-attach -n $MACH -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 export DEBIAN_FRONTEND=noninteractive
 apt-mark hold jibri
 EOS
@@ -208,7 +197,6 @@ EOS
 # disable ssh service
 lxc-attach -n $MACH -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 systemctl stop ssh.service
 systemctl disable ssh.service
 EOS
@@ -234,7 +222,6 @@ cp $ROOTFS/etc/jitsi/jibri/xorg-video-dummy.conf \
 # meta
 lxc-attach -n $MACH -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 mkdir -p /root/meta
 VERSION=\$(apt-cache policy jibri | grep Installed | rev | cut -d' ' -f1 | rev)
 echo \$VERSION > /root/meta/jibri-version
