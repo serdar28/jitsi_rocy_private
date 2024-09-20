@@ -32,7 +32,6 @@ ln -fs ../conf.avail/recorder.$JITSI_FQDN.cfg.lua \
 
 lxc-attach -n eb-jitsi -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 systemctl restart prosody.service
 EOS
 
