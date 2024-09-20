@@ -130,7 +130,6 @@ EOS
 cp etc/apt/sources.list.d/google-chrome.list $ROOTFS/etc/apt/sources.list.d/
 lxc-attach -n $MACH -- zsh <<EOS
 set -e
-echo "nameserver 8.8.8.8" > /etc/resolv.conf
 wget -T 30 -qO /tmp/google-chrome.gpg.key \
     https://dl.google.com/linux/linux_signing_key.pub
 apt-key add /tmp/google-chrome.gpg.key
