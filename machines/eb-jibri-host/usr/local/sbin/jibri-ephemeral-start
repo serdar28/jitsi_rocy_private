@@ -42,5 +42,7 @@ for c in $(seq $CPI $CPI $N); do
     rm -rf /var/lib/lxc/eb-jibri-$ID
     sleep 2
 
+    mkdir -p /var/lib/lxc/eb-jibri-$ID
+    cp /var/lib/lxc/eb-jibri-template/config /var/lib/lxc/eb-jibri-$ID/config
     lxc-copy -n eb-jibri-template -N eb-jibri-$ID -e
 done
